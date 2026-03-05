@@ -17,6 +17,7 @@ ${CLAUDE_SKILL_DIR}/fmdig.py folders
 
 # list emails in a mailbox (default limit 50)
 ${CLAUDE_SKILL_DIR}/fmdig.py list Inbox --limit 20
+${CLAUDE_SKILL_DIR}/fmdig.py list Inbox --since 7d
 
 # search with JMAP FilterCondition JSON
 ${CLAUDE_SKILL_DIR}/fmdig.py search --query '{"text": "invoice"}'
