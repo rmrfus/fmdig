@@ -71,6 +71,7 @@ export JMAP_TOKEN=your-token-here
 fmdig login                           save API token to system keyring
 fmdig folders                         list mailboxes with unread/total counts
 fmdig list <mailbox> [--limit N]      list emails (default: 50)
+              [--since AGO]           only emails newer than this: 24h, 7d, 2w
               [--preview]             show server-generated snippet per email
 fmdig search --query '<json>'         search with JMAP FilterCondition JSON
              [--limit N] [--since AGO] [--preview]

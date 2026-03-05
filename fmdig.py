@@ -139,15 +139,18 @@ class JMAP:
             total = m.get("totalEmails", 0)
             print(f"{name:<30} {unread:>6} {total:>7}  {m['id']}")
 
-    def list_emails(self, mailbox_name: str, limit: int, preview: bool = False):
+    def list_emails(self, mailbox_name: str, limit: int, since: str | None = None, preview: bool = False):
         mailbox_id = self._resolve_mailbox(mailbox_name)
+        filt: dict = {"inMailbox": mailbox_id}
+        if since:
+            filt["after"] = parse_since(since)
         props = ["id", "from", "subject", "receivedAt"]
         if preview:
             props.append("preview")
         resp = self._call([
             ["Email/query", {
                 "accountId": self.account_id,
-                "filter": {"inMailbox": mailbox_id},
+                "filter": filt,
                 "sort": [{"property": "receivedAt", "isAscending": False}],
                 "limit": limit,
             }, "0"],
@@ -364,6 +367,7 @@ def main():
     p_list = sub.add_parser("list", help="list emails in a mailbox")
     p_list.add_argument("mailbox", help="mailbox name, e.g. Inbox")
     p_list.add_argument("--limit", type=int, default=50, metavar="N")
+    p_list.add_argument("--since", metavar="AGO", help="only emails newer than this: 24h, 7d, 2w")
     p_list.add_argument("--preview", action="store_true", help="show body snippet under each email")
 
     p_search = sub.add_parser("search", help="search emails with JMAP filter")
@@ -396,7 +400,7 @@ def main():
     if args.cmd == "folders":
         client.folders()
     elif args.cmd == "list":
-        client.list_emails(args.mailbox, args.limit, preview=args.preview)
+        client.list_emails(args.mailbox, args.limit, since=args.since, preview=args.preview)
     elif args.cmd == "search":
         client.search(args.query, args.limit, since=args.since, preview=args.preview)
     elif args.cmd == "cat":

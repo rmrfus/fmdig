@@ -26,6 +26,7 @@ Token can be stored in system keyring: `./fmdig.py login`
 login                              save token to keyring (interactive, no echo)
 folders                            list mailboxes with unread/total counts
 list <mailbox> [--limit N]         list emails in a mailbox (default 50)
+  [--since AGO]                    only emails newer than this: 24h, 7d, 2w
   [--preview]                      show server-generated snippet per row
 search --query '<json>'            search with JMAP FilterCondition JSON
   [--limit N] [--since AGO]        AGO: 24h, 7d, 2w — injects "after" into filter
