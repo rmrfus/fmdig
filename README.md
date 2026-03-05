@@ -102,6 +102,21 @@ Note: `--preview` shows a server-generated 256-char snippet. For HTML-only email
 | `JMAP_TOKEN` | — | API token (overrides keyring) |
 | `JMAP_SESSION_URL` | `https://api.fastmail.com/jmap/session` | JMAP session endpoint |
 
+## Why a skill and not an MCP server?
+
+MCP is a good fit when you need a persistent process, stateful sessions, streaming, or write operations. For read-only email access that gets invoked a few times per conversation, it's overkill:
+
+| | Skill | MCP server |
+|---|---|---|
+| Runtime | subprocess on demand | persistent daemon |
+| Setup | `git clone` | server process + config |
+| Failure mode | subprocess exits, done | daemon crash, hanging connection |
+| Debugging | run `fmdig.py` directly in terminal | protocol layer in the way |
+| Stateful sessions | not needed here | yes, if you need them |
+| Write operations | not needed here | yes, if you need them |
+
+A skill is a shell script with a markdown prompt. It runs, prints text, exits. Claude reads the output and answers. That's the whole contract — and for this use case it's enough.
+
 ## License
 
 GPL-3.0. See [LICENSE](LICENSE).
