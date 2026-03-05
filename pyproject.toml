@@ -1,0 +1,21 @@
+[project]
+name = "fmdig"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["httpx", "keyring"]
+
+[dependency-groups]
+dev = ["pytest", "pytest-cov"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=fmdig --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["fmdig"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "if __name__ == .__main__.:",
+    "def die",
+]
